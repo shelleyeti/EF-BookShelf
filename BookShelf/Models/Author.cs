@@ -27,13 +27,13 @@ namespace BookShelf.Models
             { return $"{FirstName} {LastName}"; }
         }
 
-    public string Penname { get; set; }
+        public string Penname { get; set; }
 
         [Display(Name = "Preferred Genre")]
         public string PreferredGenre { get; set; }
 
         public List<Book> Book { get; set; } = new List<Book>();
 
-        public ApplicationUser ApplicationUser { get; set; } = new ApplicationUser();
+        public string ApplicationUserId { get; set; }
     }
 }

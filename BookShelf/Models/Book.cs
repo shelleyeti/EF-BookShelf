@@ -29,10 +29,10 @@ namespace BookShelf.Models
 
         [Required]
         [Display(Name = "Author")]
-        public Author Author { get; set; }
+        public int AuthorId { get; set; }
 
         [Required]
         [Display(Name = "Owner")]
-        public ApplicationUser Owner { get; set; }
+        public string OwnerId { get; set; }
     }
 }
