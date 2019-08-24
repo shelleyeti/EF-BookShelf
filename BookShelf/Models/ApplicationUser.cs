@@ -22,6 +22,10 @@ namespace BookShelf.Models
 
         [NotMapped]
         [Display(Name = "Full Name")]
-        public string FullName => $"{FirstName} {LastName}";
+        public string FullName
+        {
+            get
+            { return $"{FirstName} {LastName}"; }
+        }
     }
 }
