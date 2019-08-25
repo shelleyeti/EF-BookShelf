@@ -4,14 +4,16 @@ using BookShelf.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookShelf.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190824195350_isbn")]
+    partial class isbn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,9 +80,9 @@ namespace BookShelf.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ceef6cb4-4c8d-4e8d-94a2-8a464b7155cb",
+                            Id = "a5f77c63-9f9c-4724-9b5c-de0303c12346",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f7f5dcdb-a750-4207-9942-53aa676a3b5c",
+                            ConcurrencyStamp = "61d22797-f922-4b36-8fb8-4babed1ccb46",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "admin",
@@ -88,7 +90,7 @@ namespace BookShelf.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIJJPd6CQ+W36TL5jSPJDoafwpMZNnsIZqJEhYcp53XnokW4bkiig5fJoSBRXEe9qQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGsOac+OD0993GjMJ4m5hMVC+Bc3NPFFxxfLGXuiiD/N94x/2k1QAL+E0jAsT6BFsg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
@@ -96,9 +98,9 @@ namespace BookShelf.Migrations
                         },
                         new
                         {
-                            Id = "52d12165-ed5f-46c3-a0d9-e5e96490ca8c",
+                            Id = "b5b992bd-db7d-44dc-acfc-f47cc83125e6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2de12aa8-a2cd-4290-ade8-4ed08bc247d5",
+                            ConcurrencyStamp = "dcd8e02e-b2f9-4232-a7c0-1a65a18c8ab7",
                             Email = "shelley@me.com",
                             EmailConfirmed = true,
                             FirstName = "shelley",
@@ -106,7 +108,7 @@ namespace BookShelf.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SHELLEY@ME.COM",
                             NormalizedUserName = "SHELLEY@ME.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKJBTxQskcCAZvlS6eM+d+D+/oBp3qeXkP+zW6KDZWS2ICYR19Wqu+nxjl0izEZt4g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEPUL3IzJLY5MoDQ3B7c5GPBM5HXCzrlsQYYJTuDGfCIQxW+Qp654EXJR6P5UGaTxA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
@@ -173,12 +175,11 @@ namespace BookShelf.Migrations
 
                     b.Property<int>("AuthorId");
 
-                    b.Property<string>("AuthorName");
-
                     b.Property<string>("Genre")
                         .IsRequired();
 
-                    b.Property<long>("ISBN");
+                    b.Property<long>("ISBN")
+                        .HasMaxLength(13);
 
                     b.Property<string>("OwnerId")
                         .IsRequired();
@@ -210,7 +211,7 @@ namespace BookShelf.Migrations
                             Id = 2,
                             AuthorId = 2,
                             Genre = "Games",
-                            ISBN = 7654329876L,
+                            ISBN = 9852173896L,
                             OwnerId = "00000000-tttt-ffff-ffff-ffffffffffff",
                             PublishDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Cathing the Ball"

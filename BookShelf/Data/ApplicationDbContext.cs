@@ -99,7 +99,7 @@ namespace BookShelf.Data
                 new Book()
                 {
                     Id = 2,
-                    ISBN = 09852173896,
+                    ISBN = 7654329876,
                     Title = "Cathing the Ball",
                     Genre = "Games",
                     PublishDate = new DateTime(6 / 13 / 1986),

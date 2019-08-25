@@ -6,6 +6,10 @@ using BookShelf.Data;
 using BookShelf.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
+using BookShelf.Models.ViewModels;
 
 namespace BookShelf.Controllers
 {
@@ -38,6 +42,7 @@ namespace BookShelf.Controllers
 
             var book = await _context.Books
                 .FirstOrDefaultAsync(m => m.Id == id);
+            book.AuthorName = _context.Authors.FirstOrDefaultAsync(a => a.Id == book.AuthorId).Result.FullName;
             if (book == null)
             {
                 return NotFound();
@@ -49,7 +54,11 @@ namespace BookShelf.Controllers
         // GET: Books/Create
         public IActionResult Create()
         {
-            return View();
+            var bookAuthorViewModel = new BookAuthorViewModel();
+            bookAuthorViewModel.Authors = AuthorList();
+            bookAuthorViewModel.Book = new Book { OwnerId = _userManager.GetUserId(User) };
+
+            return View(bookAuthorViewModel);
         }
 
         // POST: Books/Create
@@ -57,15 +66,15 @@ namespace BookShelf.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ISBN,Title,Genre,PublishDate")] Book book)
+        public async Task<IActionResult> Create(BookAuthorViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(book);
+                _context.Add(model.Book);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(book);
+            return View(model);
         }
 
         // GET: Books/Edit/5
@@ -76,12 +85,15 @@ namespace BookShelf.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books.FindAsync(id);
-            if (book == null)
+            var bookAuthorViewModel = new BookAuthorViewModel();
+            bookAuthorViewModel.Authors = AuthorList();
+            bookAuthorViewModel.Book = await _context.Books.FindAsync(id);
+
+            if (bookAuthorViewModel.Book == null)
             {
                 return NotFound();
             }
-            return View(book);
+            return View(bookAuthorViewModel);
         }
 
         // POST: Books/Edit/5
@@ -89,9 +101,9 @@ namespace BookShelf.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ISBN,Title,Genre,PublishDate")] Book book)
+        public async Task<IActionResult> Edit(int id, BookAuthorViewModel model)
         {
-            if (id != book.Id)
+            if (id != model.Book.Id)
             {
                 return NotFound();
             }
@@ -100,12 +112,12 @@ namespace BookShelf.Controllers
             {
                 try
                 {
-                    _context.Update(book);
+                    _context.Update(model.Book);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BookExists(book.Id))
+                    if (!BookExists(model.Book.Id))
                     {
                         return NotFound();
                     }
@@ -116,7 +128,7 @@ namespace BookShelf.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(book);
+            return View(model);
         }
 
         // GET: Books/Delete/5
@@ -151,6 +163,24 @@ namespace BookShelf.Controllers
         private bool BookExists(int id)
         {
             return _context.Books.Any(e => e.Id == id);
+        }
+
+        private List<SelectListItem> AuthorList()
+        {
+            var selectItems = _context.Authors
+                .Select(program => new SelectListItem
+                {
+                    Text = program.FullName,
+                    Value = program.Id.ToString()
+                })
+                .ToList();
+
+            selectItems.Insert(0, new SelectListItem
+            {
+                Text = "Choose author...",
+                Value = "0"
+            });
+            return selectItems;
         }
     }
 }
