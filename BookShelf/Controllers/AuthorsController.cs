@@ -25,7 +25,14 @@ namespace BookShelf.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Authors.ToListAsync());
+            var authors = _context.Authors.ToList();
+
+            foreach(var author in authors)
+            {
+                author.Book = _context.Books.Where(x => x.AuthorId == author.Id).ToList();
+            }
+
+            return View(authors);
         }
 
         // GET: Authors/Details/5
@@ -38,6 +45,8 @@ namespace BookShelf.Controllers
 
             var author = await _context.Authors
                 .FirstOrDefaultAsync(m => m.Id == id);
+            author.Book = _context.Books.Where(x => x.AuthorId == author.Id).ToList();
+
             if (author == null)
             {
                 return NotFound();
