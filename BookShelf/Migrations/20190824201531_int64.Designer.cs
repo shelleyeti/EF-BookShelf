@@ -4,14 +4,16 @@ using BookShelf.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookShelf.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190824201531_int64")]
+    partial class int64
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,9 +80,9 @@ namespace BookShelf.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ceef6cb4-4c8d-4e8d-94a2-8a464b7155cb",
+                            Id = "f1dc650e-a6a5-41c1-8fb3-5c407775a6f9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f7f5dcdb-a750-4207-9942-53aa676a3b5c",
+                            ConcurrencyStamp = "79486424-8113-43aa-bdc2-087afc64f61c",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "admin",
@@ -88,7 +90,7 @@ namespace BookShelf.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIJJPd6CQ+W36TL5jSPJDoafwpMZNnsIZqJEhYcp53XnokW4bkiig5fJoSBRXEe9qQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEL+GAAkjjKPpWkWYpc7SQGbeth8sP3dWZv6WMY4k1vZyMT6yfIcfiUPEQnTzyEs53Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
@@ -96,9 +98,9 @@ namespace BookShelf.Migrations
                         },
                         new
                         {
-                            Id = "52d12165-ed5f-46c3-a0d9-e5e96490ca8c",
+                            Id = "d21c0f74-1294-4b1b-a605-4ed5c9203de8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2de12aa8-a2cd-4290-ade8-4ed08bc247d5",
+                            ConcurrencyStamp = "4a0bb87c-a505-4f44-9b98-1a317a683ca8",
                             Email = "shelley@me.com",
                             EmailConfirmed = true,
                             FirstName = "shelley",
@@ -106,7 +108,7 @@ namespace BookShelf.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SHELLEY@ME.COM",
                             NormalizedUserName = "SHELLEY@ME.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKJBTxQskcCAZvlS6eM+d+D+/oBp3qeXkP+zW6KDZWS2ICYR19Wqu+nxjl0izEZt4g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGEavh4+ib3O7vCtPuvvjuF1EAETcU09i7uhfV9ze7/lR8z/+qOM3guC4rR+cATVAg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
@@ -172,8 +174,6 @@ namespace BookShelf.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AuthorId");
-
-                    b.Property<string>("AuthorName");
 
                     b.Property<string>("Genre")
                         .IsRequired();

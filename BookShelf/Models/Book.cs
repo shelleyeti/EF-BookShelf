@@ -11,9 +11,9 @@ namespace BookShelf.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(13), MinLength(10)]
+        [Range(1000000000, maximum: 1000000000000)]
         [Display(Name = "ISBN")]
-        public double ISBN { get; set; }
+        public Int64 ISBN { get; set; }
 
         [Required]
         [Display(Name = "Title")]
@@ -28,11 +28,13 @@ namespace BookShelf.Models
         public DateTime PublishDate { get; set; }
 
         [Required]
-        [Display(Name = "Author")]
         public int AuthorId { get; set; }
 
         [Required]
         [Display(Name = "Owner")]
         public string OwnerId { get; set; }
+
+        [Display(Name = "Author")]
+        public string AuthorName { get; set; }
     }
 }
