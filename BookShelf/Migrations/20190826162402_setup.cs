@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BookShelf.Migrations
 {
-    public partial class initial : Migration
+    public partial class setup : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -184,12 +184,13 @@ namespace BookShelf.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ISBN = table.Column<double>(maxLength: 13, nullable: false),
+                    ISBN = table.Column<long>(nullable: false),
                     Title = table.Column<string>(nullable: false),
                     Genre = table.Column<string>(nullable: false),
                     PublishDate = table.Column<DateTime>(nullable: false),
                     AuthorId = table.Column<int>(nullable: false),
-                    OwnerId = table.Column<string>(nullable: false)
+                    OwnerId = table.Column<string>(nullable: false),
+                    AuthorName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -200,13 +201,36 @@ namespace BookShelf.Migrations
                         principalTable: "Authors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Books_AspNetUsers_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "781e388e-c261-4fed-b7dd-ca7f198984a5", 0, "6da41eaa-3b01-4a4c-a1b2-43a730fd61b2", "admin@admin.com", true, "admin", "admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEIeCVg0T1kcu5SKuXRhCJUCMEnHAAnapxJr3nNWYw+oGwPCVizihRut6PtQpMFhxGg==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "admin@admin.com" },
+                    { "c8faabd6-b41f-4ffa-a7e1-b0d25e39e75a", 0, "c4bf5115-bd56-482f-b849-65d68664b5b0", "shelley@me.com", true, "shelley", "arnold", false, null, "SHELLEY@ME.COM", "SHELLEY@ME.COM", "AQAAAAEAACcQAAAAELvqT1XdUmzMIMopwcNPFlwtHjo3RnA2Oy8LSj6bA8JmgwX8iu1NeQm8X4wAANb/jw==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "shelley@me.com" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Authors",
+                columns: new[] { "Id", "ApplicationUserId", "FirstName", "LastName", "Penname", "PreferredGenre" },
+                values: new object[,]
+                {
+                    { 1, "00000000-ffff-ffff-ffff-ffffffffffff", "Cavy", "Arnold", "Woofie", "Food" },
+                    { 2, "00000000-ffff-ffff-ffff-ffffffffffff", "Cerin", "Dog", "Dark", "Balls" },
+                    { 3, "00000000-tttt-ffff-ffff-ffffffffffff", "Scout", "Arant", null, "Family" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Books",
+                columns: new[] { "Id", "AuthorId", "AuthorName", "Genre", "ISBN", "OwnerId", "PublishDate", "Title" },
+                values: new object[] { 1, 1, null, "Food", 2375290724L, "00000000-ffff-ffff-ffff-ffffffffffff", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Getting More Treats" });
+
+            migrationBuilder.InsertData(
+                table: "Books",
+                columns: new[] { "Id", "AuthorId", "AuthorName", "Genre", "ISBN", "OwnerId", "PublishDate", "Title" },
+                values: new object[] { 2, 2, null, "Games", 7654329876L, "00000000-tttt-ffff-ffff-ffffffffffff", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Cathing the Ball" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -256,11 +280,6 @@ namespace BookShelf.Migrations
                 name: "IX_Books_AuthorId",
                 table: "Books",
                 column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Books_OwnerId",
-                table: "Books",
-                column: "OwnerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

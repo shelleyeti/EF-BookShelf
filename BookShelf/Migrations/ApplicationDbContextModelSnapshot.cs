@@ -78,9 +78,9 @@ namespace BookShelf.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ceef6cb4-4c8d-4e8d-94a2-8a464b7155cb",
+                            Id = "781e388e-c261-4fed-b7dd-ca7f198984a5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f7f5dcdb-a750-4207-9942-53aa676a3b5c",
+                            ConcurrencyStamp = "6da41eaa-3b01-4a4c-a1b2-43a730fd61b2",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "admin",
@@ -88,7 +88,7 @@ namespace BookShelf.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIJJPd6CQ+W36TL5jSPJDoafwpMZNnsIZqJEhYcp53XnokW4bkiig5fJoSBRXEe9qQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIeCVg0T1kcu5SKuXRhCJUCMEnHAAnapxJr3nNWYw+oGwPCVizihRut6PtQpMFhxGg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
@@ -96,9 +96,9 @@ namespace BookShelf.Migrations
                         },
                         new
                         {
-                            Id = "52d12165-ed5f-46c3-a0d9-e5e96490ca8c",
+                            Id = "c8faabd6-b41f-4ffa-a7e1-b0d25e39e75a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2de12aa8-a2cd-4290-ade8-4ed08bc247d5",
+                            ConcurrencyStamp = "c4bf5115-bd56-482f-b849-65d68664b5b0",
                             Email = "shelley@me.com",
                             EmailConfirmed = true,
                             FirstName = "shelley",
@@ -106,7 +106,7 @@ namespace BookShelf.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SHELLEY@ME.COM",
                             NormalizedUserName = "SHELLEY@ME.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKJBTxQskcCAZvlS6eM+d+D+/oBp3qeXkP+zW6KDZWS2ICYR19Wqu+nxjl0izEZt4g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELvqT1XdUmzMIMopwcNPFlwtHjo3RnA2Oy8LSj6bA8JmgwX8iu1NeQm8X4wAANb/jw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
@@ -134,6 +134,8 @@ namespace BookShelf.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.ToTable("Authors");
 
                     b.HasData(
@@ -149,7 +151,7 @@ namespace BookShelf.Migrations
                         new
                         {
                             Id = 2,
-                            ApplicationUserId = "00000000-tttt-ffff-ffff-ffffffffffff",
+                            ApplicationUserId = "00000000-ffff-ffff-ffff-ffffffffffff",
                             FirstName = "Cerin",
                             LastName = "Dog",
                             Penname = "Dark",
@@ -158,7 +160,7 @@ namespace BookShelf.Migrations
                         new
                         {
                             Id = 3,
-                            ApplicationUserId = "00000000-ffff-ffff-ffff-ffffffffffff",
+                            ApplicationUserId = "00000000-tttt-ffff-ffff-ffffffffffff",
                             FirstName = "Scout",
                             LastName = "Arant",
                             PreferredGenre = "Family"
@@ -201,7 +203,7 @@ namespace BookShelf.Migrations
                             AuthorId = 1,
                             Genre = "Food",
                             ISBN = 2375290724L,
-                            OwnerId = "00000000-tttt-ffff-ffff-ffffffffffff",
+                            OwnerId = "00000000-ffff-ffff-ffff-ffffffffffff",
                             PublishDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Getting More Treats"
                         },
@@ -329,6 +331,13 @@ namespace BookShelf.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("BookShelf.Models.Author", b =>
+                {
+                    b.HasOne("BookShelf.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("Author")
+                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("BookShelf.Models.Book", b =>

@@ -25,8 +25,8 @@ namespace BookShelf.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var authors = _context.Authors.ToList();
-
+            var authors = _context.Authors.Include("ApplicationUser").ToList();
+            
             foreach(var author in authors)
             {
                 author.Book = _context.Books.Where(x => x.AuthorId == author.Id).ToList();

@@ -25,6 +25,7 @@ namespace BookShelf.Models
 
         [Required]
         [Display(Name = "Publish Date")]
+        [DataType(DataType.Date)]
         public DateTime PublishDate { get; set; }
 
         [Required]

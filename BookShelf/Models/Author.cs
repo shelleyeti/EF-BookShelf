@@ -34,6 +34,9 @@ namespace BookShelf.Models
 
         public List<Book> Book { get; set; } = new List<Book>();
 
+        [Display(Name = "Created By")]
         public string ApplicationUserId { get; set; }
+
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }

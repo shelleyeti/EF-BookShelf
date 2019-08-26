@@ -27,5 +27,7 @@ namespace BookShelf.Models
             get
             { return $"{FirstName} {LastName}"; }
         }
+
+        public virtual List<Author> Author { get; set; }
     }
 }

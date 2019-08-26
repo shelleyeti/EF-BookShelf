@@ -63,7 +63,7 @@ namespace BookShelf.Data
                     LastName = "Arnold",
                     Penname = "Woofie",
                     PreferredGenre = "Food",
-                    ApplicationUserId = "00000000-ffff-ffff-ffff-ffffffffffff" 
+                    ApplicationUserId = user1.Id
                 },
                 new Author()
                 {
@@ -72,7 +72,7 @@ namespace BookShelf.Data
                     LastName = "Dog",
                     Penname = "Dark",
                     PreferredGenre = "Balls",
-                    ApplicationUserId = "00000000-tttt-ffff-ffff-ffffffffffff"
+                    ApplicationUserId = user1.Id
                 },
                 new Author()
                 {
@@ -81,7 +81,7 @@ namespace BookShelf.Data
                     LastName = "Arant",
                     Penname = null,
                     PreferredGenre = "Family",
-                    ApplicationUserId = "00000000-ffff-ffff-ffff-ffffffffffff"
+                    ApplicationUserId = user2.Id
                 }
             );
 
@@ -94,7 +94,7 @@ namespace BookShelf.Data
                     Genre = "Food",
                     PublishDate = new DateTime(10/25/1984),
                     AuthorId = 1,
-                    OwnerId = "00000000-tttt-ffff-ffff-ffffffffffff"
+                    OwnerId = user1.Id
                 },
                 new Book()
                 {
@@ -104,7 +104,7 @@ namespace BookShelf.Data
                     Genre = "Games",
                     PublishDate = new DateTime(6 / 13 / 1986),
                     AuthorId = 2,
-                    OwnerId = "00000000-tttt-ffff-ffff-ffffffffffff"
+                    OwnerId = user2.Id
                 }
             );
         }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookShelf.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190823215404_initial")]
-    partial class initial
+    [Migration("20190826162402_setup")]
+    partial class setup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -76,6 +76,44 @@ namespace BookShelf.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "781e388e-c261-4fed-b7dd-ca7f198984a5",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "6da41eaa-3b01-4a4c-a1b2-43a730fd61b2",
+                            Email = "admin@admin.com",
+                            EmailConfirmed = true,
+                            FirstName = "admin",
+                            LastName = "admin",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "ADMIN@ADMIN.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIeCVg0T1kcu5SKuXRhCJUCMEnHAAnapxJr3nNWYw+oGwPCVizihRut6PtQpMFhxGg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@admin.com"
+                        },
+                        new
+                        {
+                            Id = "c8faabd6-b41f-4ffa-a7e1-b0d25e39e75a",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "c4bf5115-bd56-482f-b849-65d68664b5b0",
+                            Email = "shelley@me.com",
+                            EmailConfirmed = true,
+                            FirstName = "shelley",
+                            LastName = "arnold",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "SHELLEY@ME.COM",
+                            NormalizedUserName = "SHELLEY@ME.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAELvqT1XdUmzMIMopwcNPFlwtHjo3RnA2Oy8LSj6bA8JmgwX8iu1NeQm8X4wAANb/jw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
+                            TwoFactorEnabled = false,
+                            UserName = "shelley@me.com"
+                        });
                 });
 
             modelBuilder.Entity("BookShelf.Models.Author", b =>
@@ -101,6 +139,34 @@ namespace BookShelf.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Authors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ApplicationUserId = "00000000-ffff-ffff-ffff-ffffffffffff",
+                            FirstName = "Cavy",
+                            LastName = "Arnold",
+                            Penname = "Woofie",
+                            PreferredGenre = "Food"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ApplicationUserId = "00000000-ffff-ffff-ffff-ffffffffffff",
+                            FirstName = "Cerin",
+                            LastName = "Dog",
+                            Penname = "Dark",
+                            PreferredGenre = "Balls"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ApplicationUserId = "00000000-tttt-ffff-ffff-ffffffffffff",
+                            FirstName = "Scout",
+                            LastName = "Arant",
+                            PreferredGenre = "Family"
+                        });
                 });
 
             modelBuilder.Entity("BookShelf.Models.Book", b =>
@@ -111,11 +177,12 @@ namespace BookShelf.Migrations
 
                     b.Property<int>("AuthorId");
 
+                    b.Property<string>("AuthorName");
+
                     b.Property<string>("Genre")
                         .IsRequired();
 
-                    b.Property<double>("ISBN")
-                        .HasMaxLength(13);
+                    b.Property<long>("ISBN");
 
                     b.Property<string>("OwnerId")
                         .IsRequired();
@@ -129,9 +196,29 @@ namespace BookShelf.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.HasIndex("OwnerId");
-
                     b.ToTable("Books");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AuthorId = 1,
+                            Genre = "Food",
+                            ISBN = 2375290724L,
+                            OwnerId = "00000000-ffff-ffff-ffff-ffffffffffff",
+                            PublishDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Getting More Treats"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AuthorId = 2,
+                            Genre = "Games",
+                            ISBN = 7654329876L,
+                            OwnerId = "00000000-tttt-ffff-ffff-ffffffffffff",
+                            PublishDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Cathing the Ball"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -251,20 +338,15 @@ namespace BookShelf.Migrations
             modelBuilder.Entity("BookShelf.Models.Author", b =>
                 {
                     b.HasOne("BookShelf.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
+                        .WithMany("Author")
                         .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("BookShelf.Models.Book", b =>
                 {
-                    b.HasOne("BookShelf.Models.Author", "Author")
+                    b.HasOne("BookShelf.Models.Author")
                         .WithMany("Book")
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("BookShelf.Models.ApplicationUser", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
